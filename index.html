@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ══ TOP BAR ══════════════════════════════════════════════ -->
+  <div class="topbar">
+    <span class="topbar__brand">🧠 Dashboard</span>
+    <div class="topbar__actions">
+      <button class="btn btn--ghost btn--xs" id="editNameBtn">✏️ Ganti Nama</button>
+      <button class="icon-toggle" id="themeToggle" aria-label="Toggle tema" title="Light / Dark">
+        <span id="themeIcon">☀️</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ══ GREETING ══════════════════════════════════════════════ -->
+  <section class="greeting-card" id="greetingSection">
+    <div class="greeting-left">
+      <p class="greeting-time" id="greetingText">Selamat Pagi</p>
+      <h1 class="greeting-name" id="greetingName">Halo, Pengguna 👋</h1>
+    </div>
+    <div class="greeting-right">
+      <p class="clock" id="clock">00:00:00</p>
+      <p class="date-display" id="dateDisplay"></p>
+    </div>
+  </section>
+
+  <!-- Name modal -->
+  <div class="overlay" id="nameOverlay" hidden>
+    <div class="modal">
+      <h2 class="modal__title">✏️ Ganti Nama</h2>
+      <input class="form__input" id="nameInput" type="text"
+             placeholder="Nama kamu..." maxlength="32" />
+      <div class="modal__actions">
+        <button class="btn btn--ghost btn--sm" id="cancelNameBtn">Batal</button>
+        <button class="btn btn--primary btn--sm" id="saveNameBtn">Simpan</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="layout">
+
+    <!-- ══ FOCUS TIMER ════════════════════════════════════════ -->
+    <section class="card">
+      <h2 class="card__title">⏱ Focus Timer</h2>
+
+      <div class="ring-wrap">
+        <svg class="ring" viewBox="0 0 120 120" aria-hidden="true">
+          <circle class="ring__track" cx="60" cy="60" r="52"/>
+          <circle class="ring__fill"  cx="60" cy="60" r="52" id="ringFill"/>
+        </svg>
+        <div class="ring-label">
+          <span class="ring-label__time" id="timerDisplay">25:00</span>
+          <span class="ring-label__sub"  id="timerSub">Fokus</span>
+        </div>
+      </div>
+
+      <div class="timer-btns">
+        <button class="btn btn--primary" id="timerStartBtn">▶ Mulai</button>
+        <button class="btn btn--secondary" id="timerResetBtn">↺ Reset</button>
+      </div>
+
+      <!-- Quick presets -->
+      <div class="presets">
+        <button class="preset active" data-min="25">25 min</button>
+        <button class="preset" data-min="10">10 min</button>
+        <button class="preset" data-min="5">5 min</button>
+      </div>
+
+      <!-- Custom duration input -->
+      <div class="custom-duration">
+        <label class="custom-duration__label" for="customMinInput">⚙️ Atur waktu sendiri</label>
+        <div class="custom-duration__row">
+          <input class="form__input form__input--sm" id="customMinInput"
+                 type="number" min="1" max="180" placeholder="Menit..." />
+          <button class="btn btn--secondary btn--sm" id="customMinBtn">Set</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ TO-DO LIST ═════════════════════════════════════════ -->
+    <section class="card">
+      <h2 class="card__title">✅ To-Do List</h2>
+
+      <form id="todoForm" class="row-form">
+        <input class="form__input" id="todoInput" type="text"
+               placeholder="Tambah tugas baru…" maxlength="120"
+               autocomplete="off" required />
+        <button class="btn btn--primary btn--sm" type="submit">+ Tambah</button>
+      </form>
+
+      <!-- duplicate warning -->
+      <p class="warn-note" id="dupWarn" hidden>⚠️ Tugas ini sudah ada!</p>
+
+      <!-- filter + sort row -->
+      <div class="todo-toolbar">
+        <div class="filter-row">
+          <button class="filter active" data-f="all">Semua</button>
+          <button class="filter" data-f="active">Aktif</button>
+          <button class="filter" data-f="done">Selesai</button>
+        </div>
+        <select class="form__select" id="sortSelect" aria-label="Urutkan tugas">
+          <option value="newest">Terbaru</option>
+          <option value="oldest">Terlama</option>
+          <option value="az">A → Z</option>
+          <option value="za">Z → A</option>
+          <option value="active">Aktif dulu</option>
+          <option value="done">Selesai dulu</option>
+        </select>
+      </div>
+
+      <ul class="todo-list" id="todoList"></ul>
+      <p class="empty-note" id="todoEmpty">Tidak ada tugas 🎉</p>
+
+      <div class="todo-footer" id="todoFooter" hidden>
+        <span id="todoInfo" class="muted-text"></span>
+        <button class="btn btn--danger btn--xs" id="clearDoneBtn">Hapus selesai</button>
+      </div>
+    </section>
+
+    <!-- ══ QUICK LINKS ════════════════════════════════════════ -->
+    <section class="card">
+      <h2 class="card__title">🔗 Quick Links</h2>
+
+      <form id="linkForm" class="col-form">
+        <input class="form__input" id="linkNameInput" type="text"
+               placeholder="Nama (misal: YouTube)" maxlength="30" required />
+        <input class="form__input" id="linkUrlInput" type="url"
+               placeholder="URL (https://…)" required />
+        <button class="btn btn--primary btn--sm" type="submit">+ Tambah Link</button>
+      </form>
+
+      <div class="links-grid" id="linksGrid"></div>
+      <p class="empty-note" id="linksEmpty">Belum ada link 🔖</p>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
